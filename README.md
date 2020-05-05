@@ -1,4 +1,4 @@
-# Monitor bandwidth of an Orange Pi PC, using a 5110 LCD screen
+# Orange Pi PC LCD bandwidth monitor
 
 `orangepipc-lcd-bandwidth-monitor` is a CLI software used to display download and upload speed of a network interface, on a Nokia 5110 LCD display and made specifically for Orange Pi PC. A port of a PCD8544 arduino library is included, ported to work with WiringOP and used to interface with the screen.
 
