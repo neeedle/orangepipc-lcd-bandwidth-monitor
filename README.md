@@ -19,7 +19,7 @@ Dependencies:
 * `PCD8544.h` included in this repository
 
 ```
-$ git clone https://github.com/neeedle/orangepipc-lcd-bandwidth-monitor.github
+$ git clone https://github.com/neeedle/orangepipc-lcd-bandwidth-monitor.git
 $ cd orangepipc-lcd-bandwidth-monitor
 $ make
 ```
