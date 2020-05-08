@@ -21,6 +21,8 @@
  */
 
 #include "PCD8544.h"
+
+#include <csignal>
 #include <iostream>
 #include <stdlib.h>
 #include <stdio.h>
@@ -35,6 +37,17 @@
 #define DC        23
 #define RESET     24
 #define CE        25
+
+PCD8544 pcd8544(CLOCK, DIN, DC, RESET, CE);
+
+
+void termination_handler(int signum)
+  {
+    digitalWrite(BACKLIGHT, HIGH); // turn off backlight
+    pcd8544.clear();
+    exit(signum);
+  }
+
 
 int main(int argc, char** argv)
   {
@@ -73,6 +86,10 @@ int main(int argc, char** argv)
         exit(EXIT_FAILURE);
       }
     
+    // signal handling
+    signal(SIGTERM, termination_handler);
+    signal(SIGINT, termination_handler);
+    
     sprintf(command_buffer, command, interface); // construct command
     
     wiringPiSetup();
@@ -85,7 +102,6 @@ int main(int argc, char** argv)
     (backlight_on) ? digitalWrite(BACKLIGHT, LOW) : digitalWrite(BACKLIGHT, HIGH); // turn backlight on or off
     
     // initialize lcd object
-    PCD8544 pcd8544(CLOCK, DIN, DC, RESET, CE);
     pcd8544.begin(84, 48, CHIP_PCD8544);
     
     while(1)
