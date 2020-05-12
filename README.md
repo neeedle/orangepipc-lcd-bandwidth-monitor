@@ -15,6 +15,7 @@ A precompiled binary is available in the releases page for usage on Orange Pi PC
 
 Dependencies: 
 
+* `ifstat`, `tail` and `column` commands
 * `WiringOP` from [Xunlong's official repository](https://github.com/orangepi-xunlong/wiringOP)
 * `PCD8544.h` included in this repository
 
