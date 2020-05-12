@@ -61,7 +61,7 @@ int main(int argc, char** argv)
     
     const char command[] = "ifstat -q -i %s 0.1 1 | tail -n 1 | column -t";
     char command_buffer[59]; // length of command (43) + max length of linux network interface (15) + NULL terminator
-    char line_buffer[15];
+    char line_buffer[32];
     float downspeed, upspeed; // in KB/s
     
     // argument handling
@@ -115,20 +115,21 @@ int main(int argc, char** argv)
             while (fgets(line_buffer, sizeof(line_buffer), pipe) != NULL)
               {
                 // retrieve two floats from command output; we can reuse the buffer while printing
-                sscanf(line_buffer, "%f %f", &downspeed, &upspeed); 
-                
-                // first line, print download speed
-                pcd8544.setCursor(0, 0);
-                sprintf(line_buffer, "DOWN %9.2f", downspeed);
-                for(i = 0; i < strlen(line_buffer); i++)
-                  pcd8544.write(line_buffer[i]);
-                  
-                
-                // second line, print upload speed
-                pcd8544.setCursor(0, 1);
-                sprintf(line_buffer, "UP   %9.2f", upspeed);
-                for(i = 0; i < strlen(line_buffer); i++)
-                  pcd8544.write(line_buffer[i]);
+                if(sscanf(line_buffer, "%f %f", &downspeed, &upspeed) == 2)
+                  {
+                    // first line, print download speed
+                    pcd8544.setCursor(0, 0);
+                    sprintf(line_buffer, "DOWN %9.2f", downspeed);
+                    for(i = 0; i < strlen(line_buffer); i++)
+                      pcd8544.write(line_buffer[i]);
+                      
+                    
+                    // second line, print upload speed
+                    pcd8544.setCursor(0, 1);
+                    sprintf(line_buffer, "UP   %9.2f", upspeed);
+                    for(i = 0; i < strlen(line_buffer); i++)
+                      pcd8544.write(line_buffer[i]);
+                  }
               }
           }
         catch (...)
