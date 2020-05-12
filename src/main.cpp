@@ -55,6 +55,7 @@ int main(int argc, char** argv)
     int opt;
     unsigned char i;
     
+    int used_pins[] = {BACKLIGHT, CLOCK, DIN, DC, RESET, CE};
     bool backlight_on = false; // backlight off by default
     int updateInterval = 1000; // in milliseconds
     char *interface = NULL;
@@ -94,10 +95,9 @@ int main(int argc, char** argv)
     
     wiringPiSetup();
     
-    // lazily initialize all pins as outputs
-    // (change the loop accordingly if you need other pins too)
-    for (int i = 0; i < 28; i++)
-      pinMode (i, OUTPUT);
+    // initialize needed pins as outputs
+    for (int i = 0; i < 6; i++)
+      pinMode(used_pins[i], OUTPUT);
     
     (backlight_on) ? digitalWrite(BACKLIGHT, LOW) : digitalWrite(BACKLIGHT, HIGH); // turn backlight on or off
     
